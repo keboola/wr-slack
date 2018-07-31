@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MyComponent;
+namespace Keboola\SlackWriter;
 
 use Keboola\Component\Config\BaseConfigDefinition;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -16,9 +16,9 @@ class ConfigDefinition extends BaseConfigDefinition
         /** @noinspection NullPointerExceptionInspection */
         $parametersNode
             ->children()
-                ->scalarNode('foo')
-                    ->defaultValue('baz')
-                ->end()
+                ->scalarNode('#token')->cannotBeEmpty()->end()
+                ->scalarNode('channel')->cannotBeEmpty()->end()
+                ->booleanNode('structured')->defaultFalse()->end()
             ->end()
         ;
         // @formatter:on
