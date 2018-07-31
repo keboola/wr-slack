@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Keboola\CuratedDataExtractor\Tests\Functional;
+namespace Keboola\SlackWriter\Tests\Functional;
 
 use Keboola\DatadirTests\AbstractDatadirTestCase;
 use Keboola\DatadirTests\DatadirTestSpecification;
@@ -59,7 +59,7 @@ class DatadirTest extends AbstractDatadirTestCase
                 [
                     'Sent 2 messages for table "in.c-main.messages"',
                     'Sent 1 messages for table "in.c-main.messages-attachments"',
-                    ''
+                    '',
                 ]
             ),
             null,
