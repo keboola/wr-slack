@@ -98,7 +98,7 @@ class DatadirTest extends AbstractDatadirTestCase
             __DIR__ . '/invalid-table/source/data',
             1,
             null,
-            'The table in.c-main.messages contains 3 columns. Every table must contain at most 2 columns.' . "\n",
+            'The "table in.c-main.messages" contains 3 columns. Every table must contain at most 2 columns.' . "\n",
             __DIR__ . '/invalid-table/expected/data/out'
         );
         $tempDatadir = $this->getTempDatadir($specification);
