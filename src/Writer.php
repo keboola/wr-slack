@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Request;
 use Keboola\Component\UserException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
