@@ -10,6 +10,29 @@ use Keboola\Csv\CsvReader;
 
 class Component extends BaseComponent
 {
+    private function getTableCSV(string $tableSource, string $tableDestination): CsvReader
+    {
+        $csvFile = $this->getDataDir() . '/in/tables/' . $tableDestination;
+        $csv = new CsvReader(
+            $csvFile,
+            CsvReader::DEFAULT_DELIMITER,
+            CsvReader::DEFAULT_ENCLOSURE,
+            CsvReader::DEFAULT_ESCAPED_BY,
+            1
+        );
+        $header = $csv->getHeader();
+        if (count($header) > 2) {
+            throw new UserException(
+                sprintf(
+                    'The table "%s" contains %s columns. Every table must contain at most 2 columns.',
+                    $tableSource,
+                    count($header)
+                )
+            );
+        }
+        return $csv;
+    }
+
     public function run(): void
     {
         /** @var Config $config */
@@ -22,24 +45,7 @@ class Component extends BaseComponent
             );
         }
         foreach ($tables as $table) {
-            $csvFile = $this->getDataDir() . '/in/tables/' . $table['destination'];
-            $csv = new CsvReader(
-                $csvFile,
-                CsvReader::DEFAULT_DELIMITER,
-                CsvReader::DEFAULT_ENCLOSURE,
-                CsvReader::DEFAULT_ESCAPED_BY,
-                1
-            );
-            $header = $csv->getHeader();
-            if (count($header) > 2) {
-                throw new UserException(
-                    sprintf(
-                        'The table "%s" contains %s columns. Every table must contain at most 2 columns.',
-                        $table['source'],
-                        count($header)
-                    )
-                );
-            }
+            $csv = $this->getTableCSV($table['source'], $table['destination']);
             $cnt = 0;
             foreach ($csv as $row) {
                 $writer->writeMessage($config->getChannel(), $row[0], $row[1] ?? null);
