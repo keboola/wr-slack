@@ -8,12 +8,12 @@ use Keboola\Component\Config\BaseConfig;
 
 class Config extends BaseConfig
 {
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->getValue(['parameters', '#token']);
     }
 
-    public function getChannel() : string
+    public function getChannel(): string
     {
         return $this->getValue(['parameters', 'channel']);
     }

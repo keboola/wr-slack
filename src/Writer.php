@@ -26,19 +26,26 @@ class Writer
      */
     private $logger;
 
+    /**
+     * @var Client
+     */
+    private $client;
+
     public function __construct(string $token, LoggerInterface $logger)
     {
         $this->token = $token;
         $this->logger = $logger;
+        $this->client = new Client([
+            'handler' => $this->getHandlerStack(),
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token,
+                'Content-type' =>  'application/json;  charset=utf-8',
+            ],
+        ]);
     }
 
-    public function writeMessage(string $channel, string $message, ?string $attachments) : void
+    public function writeMessage(string $channel, string $message, ?string $attachments): void
     {
-        $client = new Client(
-            [
-            'handler' => $this->getHandlerStack(),
-            ]
-        );
         if ($attachments) {
             try {
                 $attachments = \GuzzleHttp\json_decode($attachments, true);
@@ -52,22 +59,18 @@ class Writer
         } else {
             $attachments = null;
         }
-        $request = new Request(
-            'POST',
-            'https://slack.com//api/chat.postMessage',
-            [
-                'Authorization' => 'Bearer ' . $this->token,
-                'Content-type' =>  'application/json;  charset=utf-8',
-            ],
-            \GuzzleHttp\json_encode([
-                'channel' => $channel,
-                'text' => $message,
-                'attachments' => \GuzzleHttp\json_encode($attachments),
-            ])
-        );
 
         try {
-            $response = $client->send($request, []);
+            $response = $this->client->post(
+                'https://slack.com/api/chat.postMessage',
+                [
+                    'json' => [
+                        'channel' => $channel,
+                        'text' => $message,
+                        'attachments' => \GuzzleHttp\json_encode($attachments),
+                    ],
+                ]
+            );
             $this->handleResponse($response, $message);
         } catch (ClientException $e) {
             throw new UserException($e->getMessage(), 0, $e);

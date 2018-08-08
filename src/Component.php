@@ -17,7 +17,9 @@ class Component extends BaseComponent
         $writer = new Writer($config->getToken(), $this->getLogger());
         $tables = $config->getInputTables();
         if (count($tables) < 1) {
-            throw new UserException("At least one table must be supplied on input. The table must contain one column");
+            throw new UserException(
+                "At least one table must be supplied on input. The table must contain one or two columns"
+            );
         }
         foreach ($tables as $table) {
             $csvFile = $this->getDataDir() . '/in/tables/' . $table['destination'];
@@ -32,7 +34,7 @@ class Component extends BaseComponent
             if (count($header) > 2) {
                 throw new UserException(
                     sprintf(
-                        "The table %s contains %s columns. Every table must contain at most 2 columns.",
+                        'The table "%s" contains %s columns. Every table must contain at most 2 columns.',
                         $table['source'],
                         count($header)
                     )

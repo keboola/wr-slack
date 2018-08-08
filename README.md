@@ -11,7 +11,7 @@ The following parameters are required:
 - `#token` - Workspace token obtained when the application is installed
 - `channel` - Channel to send the messages to, e.g. `#my-channel` or `@some-person`
 
-At least one table has to be provided on input mapping and it must have on or two columns. If present, the second 
+At least one table has to be provided on input mapping and it must have one or two columns. If present, the second 
 column is assumed to be JSON string with message attachments.
 
 Sample configuration:
