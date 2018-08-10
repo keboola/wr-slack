@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Keboola\SlackWriter\Tests;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Keboola\Component\UserException;
 use Keboola\SlackWriter\Writer;
@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 class WriterTest extends TestCase
 {
 
-    /** @var ClientInterface|MockInterface */
+    /** @var Client|MockInterface */
     private $clientMock;
 
     /** @var LoggerInterface|MockInterface */
@@ -30,7 +30,7 @@ class WriterTest extends TestCase
     {
         parent::setUp();
 
-        $this->clientMock = \Mockery::mock(ClientInterface::class);
+        $this->clientMock = \Mockery::mock(Client::class);
         $this->loggerMock = \Mockery::mock(LoggerInterface::class);
         $this->writer = new Writer($this->clientMock, $this->loggerMock);
     }

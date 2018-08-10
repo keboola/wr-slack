@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Keboola\SlackWriter;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Keboola\Component\UserException;
 use Psr\Http\Message\ResponseInterface;
@@ -18,11 +18,11 @@ class Writer
     private $logger;
 
     /**
-     * @var ClientInterface
+     * @var Client
      */
     private $client;
 
-    public function __construct(ClientInterface $client, LoggerInterface $logger)
+    public function __construct(Client $client, LoggerInterface $logger)
     {
         $this->client = $client;
         $this->logger = $logger;
