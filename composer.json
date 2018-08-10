@@ -3,8 +3,7 @@
         "PHP": "^7.1",
         "guzzlehttp/guzzle": "^6.3",
         "keboola/csv": "^2.0",
-        "keboola/php-component": "^4.1",
-        "mockery/mockery": "^1.1"
+        "keboola/php-component": "^4.1"
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^1.0",
@@ -13,7 +12,8 @@
         "phpstan/phpstan-shim": "^0.9.2",
         "phpunit/phpunit": "^7.0",
         "symfony/process": "^4.0",
-        "keboola/datadir-tests": "^2.1"
+        "keboola/datadir-tests": "^2.1",
+        "mockery/mockery": "^1.1"
     },
     "autoload": {
         "psr-4": {
