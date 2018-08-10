@@ -4,43 +4,28 @@ declare(strict_types=1);
 
 namespace Keboola\SlackWriter;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use Keboola\Component\UserException;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 class Writer
 {
     /**
-     * @var string
-     */
-    private $token;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
-    public function __construct(string $token, LoggerInterface $logger)
+    public function __construct(ClientInterface $client, LoggerInterface $logger)
     {
-        $this->token = $token;
+        $this->client = $client;
         $this->logger = $logger;
-        $this->client = new Client([
-            'handler' => $this->getHandlerStack(),
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
-                'Content-type' =>  'application/json;  charset=utf-8',
-            ],
-        ]);
     }
 
     public function writeMessage(string $channel, string $message, ?string $attachments): void
@@ -100,42 +85,5 @@ class Writer
         if (!empty($responseData['warning'])) {
             $this->logger->error(sprintf('Message "%s" sent with warning: "%s"', $message, $responseData['warning']));
         }
-    }
-
-    private function getHandlerStack() : HandlerStack
-    {
-        $handlerStack = HandlerStack::create();
-        $handlerStack->push(Middleware::retry(
-            self::createDefaultDecider(),
-            self::createExponentialDelay()
-        ));
-        return $handlerStack;
-    }
-
-    private function createDefaultDecider(int $maxRetries = 3) : callable
-    {
-        return function (
-            $retries,
-            RequestInterface $request,
-            ?ResponseInterface $response = null,
-            $error = null
-        ) use ($maxRetries) {
-            if ($retries >= $maxRetries) {
-                return false;
-            } elseif ($response && $response->getStatusCode() > 499) {
-                return true;
-            } elseif ($error) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-    }
-
-    private static function createExponentialDelay() : callable
-    {
-        return function ($retries) {
-            return (int) pow(2, $retries - 1) * 1000;
-        };
     }
 }

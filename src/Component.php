@@ -37,8 +37,10 @@ class Component extends BaseComponent
     {
         /** @var Config $config */
         $config = $this->getConfig();
-        $writer = new Writer($config->getToken(), $this->getLogger());
+        $client = (new ClientFactory($config->getToken()))->create();
+        $writer = new Writer($client, $this->getLogger());
         $tables = $config->getInputTables();
+
         if (count($tables) < 1) {
             throw new UserException(
                 "At least one table must be supplied on input. The table must contain one or two columns"
