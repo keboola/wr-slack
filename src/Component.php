@@ -37,7 +37,7 @@ class Component extends BaseComponent
     {
         /** @var Config $config */
         $config = $this->getConfig();
-        $client = (new ClientFactory($config->getToken()))->create();
+        $client = (new ClientFactory())->create($config->getToken());
         $writer = new Writer($client, $this->getLogger());
         $tables = $config->getInputTables();
 

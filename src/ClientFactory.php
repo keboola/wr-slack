@@ -12,16 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class ClientFactory
 {
-    /**
-     * @var string
-     */
-    private $token;
-
-    public function __construct(string $token)
-    {
-        $this->token = $token;
-    }
-
     private function getHandlerStack() : HandlerStack
     {
         $handlerStack = HandlerStack::create();
@@ -59,12 +49,12 @@ class ClientFactory
         };
     }
 
-    public function create(): Client
+    public function create(string $token): Client
     {
         return new Client([
             'handler' => $this->getHandlerStack(),
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
+                'Authorization' => 'Bearer ' . $token,
                 'Content-type' =>  'application/json;  charset=utf-8',
             ],
         ]);
