@@ -12,6 +12,7 @@ use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
 class WriterTest extends TestCase
@@ -49,6 +50,16 @@ class WriterTest extends TestCase
 
     public function testWriteMessageWithAttachmentSuccessful(): void
     {
+        $streamInterfaceMock = \Mockery::mock(StreamInterface::class);
+        $streamInterfaceMock->shouldReceive('getContents')
+            ->once()
+            ->withNoArgs()
+            ->andReturn(json_encode([
+                'error' => '',
+                'ok' => ['Success'],
+                'warning' => [],
+            ]));
+
         $responseMock = \Mockery::mock(ResponseInterface::class);
         $responseMock->shouldReceive('getStatusCode')
             ->once()
@@ -57,11 +68,7 @@ class WriterTest extends TestCase
         $responseMock->shouldReceive('getBody')
             ->once()
             ->withNoArgs()
-            ->andReturn(json_encode([
-                'error' => '',
-                'ok' => ['Success'],
-                'warning' => [],
-            ]));
+            ->andReturn($streamInterfaceMock);
 
         $this->clientMock->shouldReceive('post')
             ->once()
@@ -87,6 +94,16 @@ class WriterTest extends TestCase
 
     public function testWriteMessageSuccessful(): void
     {
+        $streamInterfaceMock = \Mockery::mock(StreamInterface::class);
+        $streamInterfaceMock->shouldReceive('getContents')
+            ->once()
+            ->withNoArgs()
+            ->andReturn(json_encode([
+                'error' => '',
+                'ok' => ['Success'],
+                'warning' => [],
+            ]));
+
         $responseMock = \Mockery::mock(ResponseInterface::class);
         $responseMock->shouldReceive('getStatusCode')
             ->once()
@@ -95,11 +112,7 @@ class WriterTest extends TestCase
         $responseMock->shouldReceive('getBody')
             ->once()
             ->withNoArgs()
-            ->andReturn(json_encode([
-                'error' => '',
-                'ok' => ['Success'],
-                'warning' => [],
-            ]));
+            ->andReturn($streamInterfaceMock);
 
         $this->clientMock->shouldReceive('post')
             ->once()
@@ -153,6 +166,16 @@ class WriterTest extends TestCase
 
     public function testWriteMessageEndsWithError(): void
     {
+        $streamInterfaceMock = \Mockery::mock(StreamInterface::class);
+        $streamInterfaceMock->shouldReceive('getContents')
+            ->once()
+            ->withNoArgs()
+            ->andReturn(json_encode([
+                'error' => 'An error has occurred.',
+                'ok' => [],
+                'warning' => [],
+            ]));
+
         $responseMock = \Mockery::mock(ResponseInterface::class);
         $responseMock->shouldReceive('getStatusCode')
             ->once()
@@ -161,11 +184,7 @@ class WriterTest extends TestCase
         $responseMock->shouldReceive('getBody')
             ->once()
             ->withNoArgs()
-            ->andReturn(json_encode([
-                'error' => 'An error has occurred.',
-                'ok' => [],
-                'warning' => [],
-            ]));
+            ->andReturn($streamInterfaceMock);
 
         $this->clientMock->shouldReceive('post')
             ->once()
