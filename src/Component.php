@@ -10,7 +10,7 @@ use Keboola\Csv\CsvReader;
 
 class Component extends BaseComponent
 {
-    private function getTableCSV(string $tableSource, string $tableDestination): CsvReader
+    private function getTableCsv(string $tableSource, string $tableDestination): CsvReader
     {
         $csvFile = $this->getDataDir() . '/in/tables/' . $tableDestination;
         $csv = new CsvReader(
@@ -47,7 +47,7 @@ class Component extends BaseComponent
             );
         }
         foreach ($tables as $table) {
-            $csv = $this->getTableCSV($table['source'], $table['destination']);
+            $csv = $this->getTableCsv($table['source'], $table['destination']);
             $cnt = 0;
             foreach ($csv as $row) {
                 $writer->writeMessage($config->getChannel(), $row[0], $row[1] ?? null);
