@@ -73,7 +73,7 @@ class Writer
             );
         }
         try {
-            $responseData = \GuzzleHttp\json_decode((string) $response->getBody(), true);
+            $responseData = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         } catch (\InvalidArgumentException $e) {
             throw new UserException('Failed to process response from Slack: ' . $e->getMessage(), 0, $e);
         }
