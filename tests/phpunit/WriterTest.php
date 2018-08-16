@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Keboola\Component\UserException;
 use Keboola\SlackWriter\Writer;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -15,7 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
-class WriterTest extends TestCase
+class WriterTest extends MockeryTestCase
 {
 
     /** @var Client|MockInterface */
@@ -89,7 +90,6 @@ class WriterTest extends TestCase
         $attachments = '{"file":"file.name"}';
 
         $this->writer->writeMessage($channel, $message, $attachments);
-        $this->assertTrue(true);
     }
 
     public function testWriteMessageSuccessful(): void
@@ -132,7 +132,6 @@ class WriterTest extends TestCase
         $message = 'Hello world!';
 
         $this->writer->writeMessage($channel, $message, null);
-        $this->assertTrue(true);
     }
 
     public function testWriteMessageThrowsException(): void

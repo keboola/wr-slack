@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "0e5699aa0ef309d7c95226b0a56ed5e8",
@@ -1462,16 +1462,16 @@
         },
         {
             "name": "phpstan/phpstan-mockery",
-            "version": "0.10",
+            "version": "0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-mockery.git",
-                "reference": "bdf8ded0d8c03a830faccd3ead0c0ff962cc41b6"
+                "reference": "2a30b98708197c4439e0ec5c2ecf9451ffaed85b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/bdf8ded0d8c03a830faccd3ead0c0ff962cc41b6",
-                "reference": "bdf8ded0d8c03a830faccd3ead0c0ff962cc41b6",
+                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/2a30b98708197c4439e0ec5c2ecf9451ffaed85b",
+                "reference": "2a30b98708197c4439e0ec5c2ecf9451ffaed85b",
                 "shasum": ""
             },
             "require": {
@@ -1507,7 +1507,7 @@
                 "MIT"
             ],
             "description": "PHPStan Mockery extension",
-            "time": "2018-08-12T15:15:14+00:00"
+            "time": "2018-08-13T20:17:04+00:00"
         },
         {
             "name": "phpstan/phpstan-shim",
