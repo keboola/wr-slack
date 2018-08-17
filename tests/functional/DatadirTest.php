@@ -12,7 +12,7 @@ class DatadirTest extends AbstractDatadirTestCase
     public function setup(): void
     {
         parent::setUp();
-        if (empty(getenv('SLACK_TEST_TOKEN')) || empty('SLACK_TEST_CHANNEL')) {
+        if (empty(getenv('SLACK_TEST_TOKEN')) || empty(getenv('SLACK_TEST_CHANNEL'))) {
             throw new \Exception("SLACK_TEST_TOKEN or SLACK_TEST_CHANNEL is empty");
         }
     }
