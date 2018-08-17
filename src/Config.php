@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace MyComponent;
+namespace Keboola\SlackWriter;
 
 use Keboola\Component\Config\BaseConfig;
 
 class Config extends BaseConfig
 {
-    // @todo implement your custom getters
-    public function getFoo() : string
+    public function getToken(): string
     {
-        return $this->getValue(['parameters', 'foo']);
+        return $this->getValue(['parameters', '#token']);
+    }
+
+    public function getChannel(): string
+    {
+        return $this->getValue(['parameters', 'channel']);
     }
 }
