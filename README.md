@@ -8,7 +8,7 @@ Keboola Connection Writer for [Slack](https://slack.com/)
 
 The following parameters are required:
 
-- `#token` - Workspace token obtained when the application is installed
+- `#token` - Workspace token obtained when the application is installed into Slack workspace
 - `channel` - Channel to send the messages to, e.g. `#my-channel` or `@some-person`
 
 At least one table has to be provided on input mapping and it must have one or two columns. If present, the second 
