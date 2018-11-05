@@ -52,7 +52,7 @@ class Writer
                         'channel' => $channel,
                         'text' => $message,
                         'attachments' => \GuzzleHttp\json_encode($attachments),
-                    ])
+                    ]),
                 ]
             );
             $this->handleResponse($response, $message);
