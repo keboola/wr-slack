@@ -75,11 +75,11 @@ class WriterTest extends MockeryTestCase
             ->withArgs([
                 'https://slack.com/api/chat.postMessage',
                 [
-                    'json' => [
+                    'body' => \GuzzleHttp\json_encode([
                         'channel' => 'spam',
                         'text' => 'Bad attachments.',
                         'attachments' => '{"file":"file.name"}',
-                    ],
+                    ]),
                 ],
             ])
             ->andReturn($responseMock);
@@ -97,7 +97,7 @@ class WriterTest extends MockeryTestCase
         $streamInterfaceMock->shouldReceive('getContents')
             ->once()
             ->withNoArgs()
-            ->andReturn(json_encode([
+            ->andReturn(\GuzzleHttp\json_encode([
                 'error' => '',
                 'ok' => ['Success'],
                 'warning' => [],
@@ -118,11 +118,11 @@ class WriterTest extends MockeryTestCase
             ->withArgs([
                 'https://slack.com/api/chat.postMessage',
                 [
-                    'json' => [
+                    'body' => \GuzzleHttp\json_encode([
                         'channel' => 'spam',
                         'text' => 'Hello world!',
                         'attachments' => 'null',
-                    ],
+                    ]),
                 ],
             ])
             ->andReturn($responseMock);
@@ -140,11 +140,11 @@ class WriterTest extends MockeryTestCase
             ->withArgs([
                 'https://slack.com/api/chat.postMessage',
                 [
-                    'json' => [
+                    'body' => \GuzzleHttp\json_encode([
                         'channel' => 'spam',
                         'text' => 'Throw me an exception.',
                         'attachments' => 'null',
-                    ],
+                    ]),
                 ],
             ])
             ->andThrow(
@@ -168,7 +168,7 @@ class WriterTest extends MockeryTestCase
         $streamInterfaceMock->shouldReceive('getContents')
             ->once()
             ->withNoArgs()
-            ->andReturn(json_encode([
+            ->andReturn(\GuzzleHttp\json_encode([
                 'error' => 'An error has occurred.',
                 'ok' => [],
                 'warning' => [],
@@ -189,11 +189,11 @@ class WriterTest extends MockeryTestCase
             ->withArgs([
                 'https://slack.com/api/chat.postMessage',
                 [
-                    'json' => [
+                    'body' => \GuzzleHttp\json_encode([
                         'channel' => 'spam',
                         'text' => 'Error occurred!',
                         'attachments' => 'null',
-                    ],
+                    ]),
                 ],
             ])
             ->andReturn($responseMock);
