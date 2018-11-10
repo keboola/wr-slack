@@ -48,11 +48,11 @@ class Writer
             $response = $this->client->post(
                 'https://slack.com/api/chat.postMessage',
                 [
-                    'json' => [
+                    'body' => \GuzzleHttp\json_encode([
                         'channel' => $channel,
                         'text' => $message,
                         'attachments' => \GuzzleHttp\json_encode($attachments),
-                    ],
+                    ]),
                 ]
             );
             $this->handleResponse($response, $message);

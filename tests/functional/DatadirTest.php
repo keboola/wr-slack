@@ -23,7 +23,7 @@ class DatadirTest extends AbstractDatadirTestCase
             __DIR__ . '/basic-data/source/data',
             0,
             'Sent 2 messages for table "in.c-main.messages"' . "\n",
-            null,
+            '',
             __DIR__ . '/basic-data/expected/data/out'
         );
         $tempDatadir = $this->getTempDatadir($specification);
