@@ -84,7 +84,7 @@ class Writer
 
     private function handleResponse(ResponseInterface $response, string $message) : void
     {
-        if ($response->getStatusCode() != 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new UserException(
                 sprintf(
                     'Failed to send the message, error: "%s" (code: %s)',
