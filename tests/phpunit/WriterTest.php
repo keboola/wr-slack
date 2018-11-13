@@ -65,15 +65,12 @@ class WriterTest extends MockeryTestCase
     /**
      * @dataProvider wrongAttachmentsProvider
      */
-    public function testWriteMessageWithWrongAttachment($message, $attachment, $error): void
+    public function testWriteMessageWithWrongAttachment(string $message, string $attachments, string $error): void
     {
         $channel = 'spam';
-        $message = 'Bad attachments.';
-        $attachments = '{"file":"file.name"';
 
         $this->expectException(UserException::class);
-        $this->expectExceptionMessage('Attachments for message "Bad attachments."' .
-            ' is not a valid JSON (json_decode error: Syntax error)');
+        $this->expectExceptionMessage($error);
         $this->writer->writeMessage($channel, $message, $attachments);
     }
 

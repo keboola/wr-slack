@@ -162,7 +162,7 @@ class DatadirTest extends AbstractDatadirTestCase
             __DIR__ . '/invalid-attachments-struct/source/data',
             1,
             null,
-            'Attachments for message "hello" is not a valid JSON (json_decode error: Syntax error)' . "\n",
+            'Attachments for message "world" is not an array.' . "\n",
             __DIR__ . '/invalid-attachments-struct/expected/data/out'
         );
         $tempDatadir = $this->getTempDatadir($specification);
