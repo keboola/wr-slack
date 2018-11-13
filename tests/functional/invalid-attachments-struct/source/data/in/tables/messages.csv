@@ -1,0 +1,3 @@
+"message","attachments"
+"hello","[{""text"":""some text"",""attachment_type"":""default""}]"
+"world","{""text"":""some other text"",""attachment_type"":""default""}"
