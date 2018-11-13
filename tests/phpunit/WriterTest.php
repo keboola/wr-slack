@@ -36,7 +36,36 @@ class WriterTest extends MockeryTestCase
         $this->writer = new Writer($this->clientMock, $this->loggerMock);
     }
 
-    public function testWriteMessageWithWrongAttachment(): void
+    public function wrongAttachmentsProvider(): array
+    {
+        return [
+            [
+                'invalid JSON',
+                '{"file":"file.name"',
+                'Attachments for message "invalid JSON" is not a valid JSON (json_decode error: Syntax error)',
+            ],
+            [
+                'invalid root',
+                '{"file":"file.name"}',
+                'Attachments for message "invalid root" is not an array.',
+            ],
+            [
+                'unexpected array',
+                '[[{"file":"file.name"}]]',
+                'Attachments for message "unexpected array" is not an array of objects.',
+            ],
+            [
+                'unexpected object',
+                '["file","file.name"]',
+                'Attachments for message "unexpected object" is not an array of objects.',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider wrongAttachmentsProvider
+     */
+    public function testWriteMessageWithWrongAttachment($message, $attachment, $error): void
     {
         $channel = 'spam';
         $message = 'Bad attachments.';
@@ -78,7 +107,7 @@ class WriterTest extends MockeryTestCase
                     'body' => \GuzzleHttp\json_encode([
                         'channel' => 'spam',
                         'text' => 'Bad attachments.',
-                        'attachments' => '{"file":"file.name"}',
+                        'attachments' => '[{"file":"file.name"}]',
                     ]),
                 ],
             ])
@@ -86,7 +115,7 @@ class WriterTest extends MockeryTestCase
 
         $channel = 'spam';
         $message = 'Bad attachments.';
-        $attachments = '{"file":"file.name"}';
+        $attachments = '[{"file":"file.name"}]';
 
         $this->writer->writeMessage($channel, $message, $attachments);
     }
