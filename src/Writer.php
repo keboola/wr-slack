@@ -28,11 +28,27 @@ class Writer
         $this->logger = $logger;
     }
 
-    public function writeMessage(string $channel, string $message, ?string $attachments): void
+    private function processAttachments(string $message, ?string $attachments): ?array
     {
         if ($attachments) {
             try {
-                $attachments = \GuzzleHttp\json_decode($attachments, true);
+                $attachments = \GuzzleHttp\json_decode($attachments, false);
+                if ($attachments) {
+                    if (!is_array($attachments)) {
+                        throw new UserException(
+                            sprintf('Attachments for message "%s" is not an array.', $message)
+                        );
+                    }
+                    foreach ($attachments as $attachment) {
+                        if (!is_object($attachment)) {
+                            throw new UserException(
+                                sprintf('Attachments for message "%s" is not an array of objects.', $message)
+                            );
+                        }
+                    }
+                } else {
+                    $attachments = null;
+                }
             } catch (\InvalidArgumentException $e) {
                 throw new UserException(
                     sprintf('Attachments for message "%s" is not a valid JSON (%s)', $message, $e->getMessage()),
@@ -43,7 +59,12 @@ class Writer
         } else {
             $attachments = null;
         }
+        return $attachments;
+    }
 
+    public function writeMessage(string $channel, string $message, ?string $attachments): void
+    {
+        $attachments = $this->processAttachments($message, $attachments);
         try {
             $response = $this->client->post(
                 'https://slack.com/api/chat.postMessage',
@@ -63,7 +84,7 @@ class Writer
 
     private function handleResponse(ResponseInterface $response, string $message) : void
     {
-        if ($response->getStatusCode() != 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new UserException(
                 sprintf(
                     'Failed to send the message, error: "%s" (code: %s)',

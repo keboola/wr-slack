@@ -156,6 +156,38 @@ class DatadirTest extends AbstractDatadirTestCase
         $this->assertMatchesSpecification($specification, $process, $tempDatadir->getTmpFolder());
     }
 
+    public function testInvalidAttachmentsStruct(): void
+    {
+        $specification = new DatadirTestSpecification(
+            __DIR__ . '/invalid-attachments-struct/source/data',
+            1,
+            null,
+            'Attachments for message "world" is not an array.' . "\n",
+            __DIR__ . '/invalid-attachments-struct/expected/data/out'
+        );
+        $tempDatadir = $this->getTempDatadir($specification);
+        $data = [
+            'parameters' => [
+                'channel' => getenv('SLACK_TEST_CHANNEL'),
+                '#token' => getenv('SLACK_TEST_TOKEN'),
+            ],
+            'storage' => [
+                'input' => [
+                    'tables' => [
+                        [
+                            'source' => 'in.c-main.messages',
+                            'destination' => 'messages.csv',
+                        ],
+                    ],
+                ],
+            ],
+            'action' => 'run',
+        ];
+        file_put_contents($tempDatadir->getTmpFolder() . '/config.json', \GuzzleHttp\json_encode($data));
+        $process = $this->runScript($tempDatadir->getTmpFolder());
+        $this->assertMatchesSpecification($specification, $process, $tempDatadir->getTmpFolder());
+    }
+
     public function testInvalidToken(): void
     {
         $specification = new DatadirTestSpecification(
