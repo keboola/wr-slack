@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ClientFactory
 {
-    private function getHandlerStack() : HandlerStack
+    private function getHandlerStack(): HandlerStack
     {
         $handlerStack = HandlerStack::create();
         $handlerStack->push(Middleware::retry(
@@ -22,7 +22,7 @@ class ClientFactory
         return $handlerStack;
     }
 
-    private static function createDefaultDecider(int $maxRetries = 3) : callable
+    private static function createDefaultDecider(int $maxRetries = 3): callable
     {
         return function (
             $retries,
@@ -42,7 +42,7 @@ class ClientFactory
         };
     }
 
-    private static function createExponentialDelay() : callable
+    private static function createExponentialDelay(): callable
     {
         return function ($retries) {
             return (int) pow(2, $retries - 1) * 1000;

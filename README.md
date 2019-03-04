@@ -8,7 +8,7 @@ Keboola Connection Writer for [Slack](https://slack.com/)
 
 The following parameters are required:
 
-- `#token` - Workspace token obtained when the application is installed into Slack workspace (create a new [Workspace app](https://api.slack.com/workspace-apps-preview), go to `OAuth & Permissions` then click `Install App` to obtain the token. Don't forget to set Scopes & Permissions to `Post messages as the app`.
+- `#token` - Workspace token obtained when the application is installed into Slack workspace (create a new [App](https://api.slack.com/apps), go to `OAuth & Permissions`, select the permission `chat:write:bot` and then click `Install App` to obtain the token (`xoxp-`).
 - `channel` - Channel to send the messages to, e.g. `#my-channel` or `@some-person`
 
 At least one table has to be provided on input mapping and it must have one or two columns. If present, the second 
@@ -29,7 +29,7 @@ Sample configuration:
 		}
 	},
 	"parameters": {
-		"#token": "xoxa-00000000",
+		"#token": "xoxp-00000000-...",
 		"channel": "@some-person"
 	}
 }
